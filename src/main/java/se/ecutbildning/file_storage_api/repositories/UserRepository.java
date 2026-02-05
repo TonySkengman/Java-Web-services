@@ -2,7 +2,6 @@ package se.ecutbildning.file_storage_api.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import se.deved.twitter_clone.models.User;
 import se.ecutbildning.file_storage_api.models.UserEntity;
 
 import java.util.Optional;
