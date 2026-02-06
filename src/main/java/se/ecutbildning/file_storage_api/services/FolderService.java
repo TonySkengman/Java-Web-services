@@ -1,5 +1,6 @@
 package se.ecutbildning.file_storage_api.services;
 
+import se.ecutbildning.file_storage_api.dtos.CreateFolderRequest;
 import se.ecutbildning.file_storage_api.exceptions.CreateFolderException;
 import se.ecutbildning.file_storage_api.models.FolderEntity;
 import se.ecutbildning.file_storage_api.models.UserEntity;
@@ -14,5 +15,5 @@ public interface FolderService {
     List<FolderEntity> getAllFolders(int page, int size);
     Optional<FolderEntity> getFolderById(UUID folderId);
     Optional<FolderEntity> getFolderByIdWithFiles(UUID folderId);
-    void deleteFolderById(UUID postId, UserEntity user);
+    void deleteFolderById(UUID folderId, UserEntity user);
 }

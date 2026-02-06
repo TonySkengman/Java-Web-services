@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import se.ecutbildning.file_storage_api.dtos.CreateFolderRequest;
 import se.ecutbildning.file_storage_api.exceptions.CreateFolderException;
 import se.ecutbildning.file_storage_api.exceptions.DeleteFolderNotFoundException;
 import se.ecutbildning.file_storage_api.models.FolderEntity;
@@ -52,24 +53,24 @@ public class DefaultFolderService implements FolderService {
     }
 
     @Override
-    public Optional<FolderEntity> getFolderById(UUID postId) {
+    public Optional<FolderEntity> getFolderById(UUID folderId) {
         return folderRepository.findById(folderId);
     }
 
     @Override
-    public Optional<FolderEntity> getFolderByIdWithFiles(UUID postId) {
-        return folderRepository.findByIdWithFiles(postId);
+    public Optional<FolderEntity> getFolderByIdWithFiles(UUID folderId) {
+        return folderRepository.findByIdWithFiles(folderId);
     }
 
     @Override
     public void deleteFolderById(UUID folderId, UserEntity user) {
-        var post = folderRepository.findById(folderId)
+        var folder = folderRepository.findById(folderId)
                 .orElseThrow(DeleteFolderNotFoundException::new);
 
-        if (!post.getCreator().getId().equals(user.getId())) {
+        if (!folder.getCreator().getId().equals(user.getId())) {
             throw new DeleteFolderNotFoundException();
         }
 
-        folderRepository.delete(post);
+        folderRepository.delete(folder);
     }
 }
