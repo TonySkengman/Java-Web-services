@@ -19,17 +19,17 @@ public class FolderEntity {
     @Id
     private final UUID id = UUID.randomUUID();
 
-    private String content;
+    private String name;
     private Date createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity creator;
 
-    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<FileEntity> files = new ArrayList<>();
 
-    public FolderEntity(String content, UserEntity creator) {
-        this.content = content;
+    public FolderEntity(String name, UserEntity creator) {
+        this.name = name;
         this.creator = creator;
         this.createdAt = new Date();
     }

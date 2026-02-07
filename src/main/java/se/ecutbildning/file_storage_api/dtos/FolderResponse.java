@@ -29,7 +29,7 @@ public class FolderResponse {
     public static FolderResponse fromModel(FolderEntity folder) {
         return new FolderResponse(
                 folder.getId(),
-                folder.getContent(),
+                folder.getName(),
                 folder.getCreatedAt(),
                 folder.getCreator()
         );

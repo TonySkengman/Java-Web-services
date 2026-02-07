@@ -13,7 +13,6 @@ import se.ecutbildning.file_storage_api.exceptions.DeleteFileNotFoundException;
 import se.ecutbildning.file_storage_api.exceptions.InvalidFileContentException;
 import se.ecutbildning.file_storage_api.models.UserEntity;
 import se.ecutbildning.file_storage_api.services.FileService;
-import se.ecutbildning.file_storage_api.services.FolderService;
 
 import java.net.URI;
 import java.util.UUID;
@@ -25,7 +24,6 @@ import java.util.UUID;
 public class FileController {
 
     private final FileService fileService;
-    private final FolderService folderService;
 
     @PostMapping
     public ResponseEntity<?> createFile(

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import se.ecutbildning.file_storage_api.dtos.CreateFolderRequest;
 import se.ecutbildning.file_storage_api.exceptions.CreateFolderException;
 import se.ecutbildning.file_storage_api.exceptions.DeleteFolderNotFoundException;
+import se.ecutbildning.file_storage_api.exceptions.InvalidFolderContentException;
 import se.ecutbildning.file_storage_api.models.FolderEntity;
 import se.ecutbildning.file_storage_api.models.UserEntity;
 import se.ecutbildning.file_storage_api.repositories.FolderRepository;
@@ -27,6 +28,9 @@ public class DefaultFolderService implements FolderService {
 
     @Override
     public FolderEntity createFolder(CreateFolderRequest request, UserEntity user) throws CreateFolderException {
+        if (request.getContent().length() < 3 || request.getContent().length() > 49) {
+            throw new InvalidFolderContentException();
+        }
 
         var folder = new FolderEntity(request.getContent(), user);
         folder = folderRepository.save(folder);

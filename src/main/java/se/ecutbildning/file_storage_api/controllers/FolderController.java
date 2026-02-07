@@ -10,7 +10,6 @@ import se.ecutbildning.file_storage_api.dtos.CreateFolderRequest;
 import se.ecutbildning.file_storage_api.dtos.ErrorResponse;
 import se.ecutbildning.file_storage_api.dtos.FolderResponse;
 import se.ecutbildning.file_storage_api.dtos.FolderWithFilesResponse;
-import se.ecutbildning.file_storage_api.exceptions.DeleteFileNotFoundException;
 import se.ecutbildning.file_storage_api.exceptions.DeleteFolderNotFoundException;
 import se.ecutbildning.file_storage_api.exceptions.InvalidFolderContentException;
 import se.ecutbildning.file_storage_api.models.UserEntity;
@@ -38,7 +37,7 @@ public class FolderController {
         } catch (InvalidFolderContentException ignored) {
             return ResponseEntity
                     .badRequest()
-                    .body(new ErrorResponse("Content must be between 5 and 200 characters"));
+                    .body(new ErrorResponse("Folder name must be between 3 and 50 characters"));
         } catch (Exception exception) {
             log.error("Error creating folder", exception);
             return ResponseEntity

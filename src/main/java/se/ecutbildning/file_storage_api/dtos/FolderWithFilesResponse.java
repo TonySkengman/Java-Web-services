@@ -36,7 +36,7 @@ public class FolderWithFilesResponse {
     public static FolderWithFilesResponse fromModel(FolderEntity folder) {
         return new FolderWithFilesResponse(
                 folder.getId(),
-                folder.getContent(),
+                folder.getName(),
                 folder.getCreatedAt(),
                 folder.getCreator(),
                 folder.getFiles()
