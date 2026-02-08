@@ -34,7 +34,7 @@ public class DefaultUserService implements UserService {
         }
 
         var passwordErrors = new ArrayList<PasswordError>();
-        if (password.isBlank() || password.length() < 8) {
+        if (password.isBlank() || password.length() < 5) {
             passwordErrors.add(PasswordError.TOO_SHORT);
         }
 

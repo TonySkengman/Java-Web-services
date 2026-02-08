@@ -14,20 +14,20 @@ import java.util.UUID;
 @Setter
 public class FolderWithFilesResponse {
     private final UUID id;
-    private String content;
+    private String folderName;
     private Date createdAt;
     private UserResponse creator;
     private List<FileResponse> files;
 
     public FolderWithFilesResponse(
             UUID id,
-            String content,
+            String folderName,
             Date createdAt,
             UserEntity creator,
             List<FileEntity> files
     ) {
         this.id = id;
-        this.content = content;
+        this.folderName = folderName;
         this.creator = UserResponse.fromModel(creator);
         this.createdAt = createdAt;
         this.files = files.stream().map(FileResponse::fromModel).toList();

@@ -25,8 +25,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/user/register").permitAll()
                             .requestMatchers("/user/login").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/folder/all").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/folder/*").permitAll()
                             .anyRequest().authenticated();
                 })
                 .addFilterBefore(new JwtAuthenticationFilter(userService, jwtService), UsernamePasswordAuthenticationFilter.class);

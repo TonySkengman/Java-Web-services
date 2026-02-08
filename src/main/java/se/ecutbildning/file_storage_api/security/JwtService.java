@@ -29,7 +29,7 @@ public class JwtService {
         return JWT.create()
                 .withIssuer("file-storage-api")
                 .withIssuedAt(Instant.now())
-                .withExpiresAt(Instant.now().plus(2, ChronoUnit.MINUTES))
+                .withExpiresAt(Instant.now().plus(30, ChronoUnit.MINUTES))
                 .withSubject(userId.toString())
                 .sign(algorithm);
     }

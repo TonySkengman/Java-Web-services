@@ -15,13 +15,13 @@ import java.util.UUID;
 public class FolderResponse {
 
     private final UUID id;
-    private String content;
+    private String folderName;
     private Date createdAt;
     private UserResponse creator;
 
-    public FolderResponse(UUID id, String content, Date createdAt, UserEntity creator) {
+    public FolderResponse(UUID id, String folderName, Date createdAt, UserEntity creator) {
         this.id = id;
-        this.content = content;
+        this.folderName = folderName;
         this.creator = UserResponse.fromModel(creator);
         this.createdAt = createdAt;
     }

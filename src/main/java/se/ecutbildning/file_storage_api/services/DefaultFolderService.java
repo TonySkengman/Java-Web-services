@@ -28,11 +28,11 @@ public class DefaultFolderService implements FolderService {
 
     @Override
     public FolderEntity createFolder(CreateFolderRequest request, UserEntity user) throws CreateFolderException {
-        if (request.getContent().length() < 3 || request.getContent().length() > 49) {
+        if (request.getFolderName().length() < 3 || request.getFolderName().length() > 49) {
             throw new InvalidFolderContentException();
         }
 
-        var folder = new FolderEntity(request.getContent(), user);
+        var folder = new FolderEntity(request.getFolderName(), user);
         folder = folderRepository.save(folder);
         log.info("Folder with id '{}' created", folder.getId());
         return folder;

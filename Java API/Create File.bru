@@ -1,0 +1,23 @@
+meta {
+  name: Create File
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/file
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "Kommentar",
+    "folderId": "263a6aa8-4a8d-4579-8bc4-57cf4f98ee18"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

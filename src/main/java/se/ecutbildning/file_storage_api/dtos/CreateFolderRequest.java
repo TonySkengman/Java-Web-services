@@ -7,5 +7,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateFolderRequest {
-    private String content;
+    private String folderName;
 }

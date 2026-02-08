@@ -1,0 +1,20 @@
+meta {
+  name: Delete File By Id
+  type: http
+  seq: 9
+}
+
+delete {
+  url: http://localhost:8080/file/:fileId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  fileId: 
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

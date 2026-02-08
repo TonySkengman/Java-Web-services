@@ -1,0 +1,21 @@
+meta {
+  name: Get All Folders
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://localhost:8080/folder/all?size=100&page=0
+  body: none
+  auth: inherit
+}
+
+params:query {
+  size: 100
+  page: 0
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
