@@ -49,10 +49,11 @@ public class FolderController {
     @GetMapping("/all")
     public List<FolderResponse> getAllFolders(
             @RequestParam int size,
-            @RequestParam int page
+            @RequestParam int page,
+            @AuthenticationPrincipal UserEntity user
     ) {
         return folderService
-                .getAllFolders(page, size)
+                .getAllFolders(page, size, user)
                 .stream()
                 .map(FolderResponse::fromModel)
                 .toList();
@@ -61,14 +62,15 @@ public class FolderController {
     @GetMapping("/{folderId}")
     public ResponseEntity<?> getFolderById(
             @PathVariable UUID folderId,
-            @RequestParam(required = false) boolean includeFiles
+            @RequestParam(required = false) boolean includeFiles,
+            @AuthenticationPrincipal UserEntity user
     ) {
         if (includeFiles) {
-            return folderService.getFolderByIdWithFiles(folderId)
+            return folderService.getFolderByIdWithFiles(folderId, user)
                     .map(folder -> ResponseEntity.ok(FolderWithFilesResponse.fromModel(folder)))
                     .orElse(ResponseEntity.notFound().build());
         } else {
-            return folderService.getFolderById(folderId)
+            return folderService.getFolderById(folderId, user)
                     .map(folder -> ResponseEntity.ok(FolderResponse.fromModel(folder)))
                     .orElse(ResponseEntity.notFound().build());
         }

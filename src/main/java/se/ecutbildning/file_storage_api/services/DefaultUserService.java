@@ -13,7 +13,6 @@ import se.ecutbildning.file_storage_api.exceptions.*;
 import se.ecutbildning.file_storage_api.models.UserEntity;
 import se.ecutbildning.file_storage_api.repositories.UserRepository;
 import se.ecutbildning.file_storage_api.security.JwtService;
-
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;

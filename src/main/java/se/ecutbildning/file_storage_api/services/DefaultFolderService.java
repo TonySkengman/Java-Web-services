@@ -13,7 +13,6 @@ import se.ecutbildning.file_storage_api.models.FolderEntity;
 import se.ecutbildning.file_storage_api.models.UserEntity;
 import se.ecutbildning.file_storage_api.repositories.FolderRepository;
 import se.ecutbildning.file_storage_api.repositories.UserRepository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,7 +38,7 @@ public class DefaultFolderService implements FolderService {
     }
 
     @Override
-    public List<FolderEntity> getAllFolders(int page, int size) {
+    public List<FolderEntity> getAllFolders(int page, int size, UserEntity user) {
         if (size > 100) {
             size = 100;
         }
@@ -53,17 +52,17 @@ public class DefaultFolderService implements FolderService {
         }
 
         Pageable pageable = PageRequest.of(page, size);
-        return folderRepository.findAll(pageable).toList();
+        return folderRepository.findAllByCreator(user, pageable).getContent();
     }
 
     @Override
-    public Optional<FolderEntity> getFolderById(UUID folderId) {
-        return folderRepository.findById(folderId);
+    public Optional<FolderEntity> getFolderById(UUID folderId, UserEntity user) {
+        return folderRepository.findByIdAndCreator(folderId, user);
     }
 
     @Override
-    public Optional<FolderEntity> getFolderByIdWithFiles(UUID folderId) {
-        return folderRepository.findByIdWithFiles(folderId);
+    public Optional<FolderEntity> getFolderByIdWithFiles(UUID folderId, UserEntity user) {
+        return folderRepository.findByIdWithFilesAndCreator(folderId, user);
     }
 
     @Override

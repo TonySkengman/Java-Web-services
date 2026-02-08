@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "Java API",
+  "name": "bruno-files",
   "type": "collection",
   "ignore": [
     "node_modules",

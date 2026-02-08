@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import se.ecutbildning.file_storage_api.models.FolderEntity;
 import se.ecutbildning.file_storage_api.models.UserEntity;
-
 import java.util.Date;
 import java.util.UUID;
 

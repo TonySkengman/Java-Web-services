@@ -4,7 +4,6 @@ import se.ecutbildning.file_storage_api.dtos.CreateFolderRequest;
 import se.ecutbildning.file_storage_api.exceptions.CreateFolderException;
 import se.ecutbildning.file_storage_api.models.FolderEntity;
 import se.ecutbildning.file_storage_api.models.UserEntity;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,8 +11,8 @@ import java.util.UUID;
 public interface FolderService {
 
     FolderEntity createFolder(CreateFolderRequest request, UserEntity user) throws CreateFolderException;
-    List<FolderEntity> getAllFolders(int page, int size);
-    Optional<FolderEntity> getFolderById(UUID folderId);
-    Optional<FolderEntity> getFolderByIdWithFiles(UUID folderId);
+    List<FolderEntity> getAllFolders(int page, int size, UserEntity user);
+    Optional<FolderEntity> getFolderById(UUID folderId, UserEntity user);
+    Optional<FolderEntity> getFolderByIdWithFiles(UUID folderId, UserEntity user);
     void deleteFolderById(UUID folderId, UserEntity user);
 }

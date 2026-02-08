@@ -1,0 +1,28 @@
+meta {
+  name: Get Folder With Files By Id
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:8080/folder/:folderId?includeFiles=true
+  body: none
+  auth: bearer
+}
+
+params:query {
+  includeFiles: true
+}
+
+params:path {
+  folderId: 2c8ba710-51b2-4066-bdd9-cf7180907585
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaWxlLXN0b3JhZ2UtYXBpIiwiaWF0IjoxNzcwNTcwMjUyLCJleHAiOjE3NzA1NzIwNTIsInN1YiI6IjVlMTAzZmZhLTIwNWYtNGZiNS1iYTdjLTEzNDFiOTQ5M2EwOSJ9.RTQC8RmBzZb6UgQf2_aKmsnbFHcP8DsIOgAQkQeS0h8
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

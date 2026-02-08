@@ -1,6 +1,5 @@
 package se.ecutbildning.file_storage_api.controllers;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,7 @@ import se.ecutbildning.file_storage_api.exceptions.DeleteFileNotFoundException;
 import se.ecutbildning.file_storage_api.exceptions.InvalidFileContentException;
 import se.ecutbildning.file_storage_api.models.UserEntity;
 import se.ecutbildning.file_storage_api.services.FileService;
-
+import se.ecutbildning.file_storage_api.services.FolderService;
 import java.net.URI;
 import java.util.UUID;
 
@@ -24,6 +23,7 @@ import java.util.UUID;
 public class FileController {
 
     private final FileService fileService;
+    private final FolderService folderService;
 
     @PostMapping
     public ResponseEntity<?> createFile(
@@ -68,13 +68,12 @@ public class FileController {
     }
 
     @GetMapping("/{fileId}")
-    public ResponseEntity<FileResponse> getFileById(
-            @PathVariable UUID fileId
+    public ResponseEntity<?> getFileById(
+            @PathVariable UUID fileId,
+            @AuthenticationPrincipal UserEntity user
     ) {
-        return fileService.getFileById(fileId)
-                .map(file -> ResponseEntity.ok(
-                        FileResponse.fromModel(file)
-                ))
+        return fileService.getFileById(fileId, user)
+                .map(file -> ResponseEntity.ok(FileResponse.fromModel(file)))
                 .orElse(ResponseEntity.notFound().build());
     }
 }

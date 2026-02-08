@@ -10,7 +10,6 @@ import se.ecutbildning.file_storage_api.models.UserEntity;
 import se.ecutbildning.file_storage_api.repositories.FileRepository;
 import se.ecutbildning.file_storage_api.repositories.FolderRepository;
 import se.ecutbildning.file_storage_api.repositories.UserRepository;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +26,10 @@ public class DefaultFileService implements FileService {
     public FileEntity createFile(CreateFileRequest request, UserEntity user) throws CreateFileException {
         var folder = folderRepository.findById(request.getFolderId())
                 .orElseThrow(CreateFileFolderNotFoundException::new);
+
+        if (!folder.getCreator().getId().equals(user.getId())) {
+            throw new CreateFileFolderNotFoundException();
+        }
 
         if (request.getContent().length() < 5) {
             throw new InvalidFileContentException();
@@ -52,8 +55,8 @@ public class DefaultFileService implements FileService {
     }
 
     @Override
-    public Optional<FileEntity> getFileById(UUID fileId) {
-        return fileRepository.findById(fileId);
+    public Optional<FileEntity> getFileById(UUID fileId, UserEntity user) {
+        return fileRepository.findByIdAndOwner(fileId, user);
     }
 }
 
