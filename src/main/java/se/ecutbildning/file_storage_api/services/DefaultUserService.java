@@ -26,6 +26,15 @@ public class DefaultUserService implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    /**
+     * Skapar en ny användare med angivet användarnamn och lösenord.
+     *
+     * @param username användarnamnet för den nya användaren
+     * @param password lösenordet för den nya användaren
+     * @return den skapade UserEntity
+     * @throws CreateUserException om användarnamn eller lösenord är ogiltigt eller användaren redan finns
+     */
+
     @Override
     public UserEntity createUser(String username, String password) throws CreateUserException {
         if (username.isBlank() || username.length() < 4) {
@@ -62,6 +71,15 @@ public class DefaultUserService implements UserService {
         return user;
     }
 
+    /**
+     * Autentiserar en användare och returnerar en JWT-token om autentisering lyckas.
+     *
+     * @param username användarnamn
+     * @param password lösenord
+     * @return en JWT-token
+     * @throws AuthException om autentisering misslyckas
+     */
+
     @Override
     public String authenticateUser(String username, String password) throws AuthException {
         var user = userRepository.findByUsername(username)
@@ -74,10 +92,27 @@ public class DefaultUserService implements UserService {
         return jwtService.generateToken(user.getId());
     }
 
+
+    /**
+     * Hämtar en användare baserat på UUID.
+     *
+     * @param userId användarens UUID
+     * @return ett Optional som innehåller användaren om den finns
+     */
+
     @Override
     public Optional<UserEntity> getUserById(UUID userId) {
         return userRepository.findById(userId);
     }
+
+
+    /**
+     * Laddar en användare baserat på användarnamn för Spring Security.
+     *
+     * @param username användarnamn
+     * @return UserDetails
+     * @throws UsernameNotFoundException om användarnamnet inte finns
+     */
 
     @Override
     @Nonnull

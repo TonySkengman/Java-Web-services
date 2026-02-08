@@ -25,6 +25,15 @@ public class DefaultFolderService implements FolderService {
     private final FolderRepository folderRepository;
     private final UserRepository userRepository;
 
+    /**
+     * Skapar en ny mapp för en användare.
+     *
+     * @param request mappens skapandeförfrågan som innehåller namn
+     * @param user användaren som skapar mappen
+     * @return den skapade FolderEntity
+     * @throws CreateFolderException om mappnamnet är ogiltigt
+     */
+
     @Override
     public FolderEntity createFolder(CreateFolderRequest request, UserEntity user) throws CreateFolderException {
         if (request.getFolderName().length() < 3 || request.getFolderName().length() > 49) {
@@ -36,6 +45,15 @@ public class DefaultFolderService implements FolderService {
         log.info("Folder with id '{}' created", folder.getId());
         return folder;
     }
+
+    /**
+     * Hämtar alla mappar för en specifik användare med pagination.
+     *
+     * @param page sidnummer (0-indexerat)
+     * @param size sidstorlek
+     * @param user mappens ägare
+     * @return lista med FolderEntity för användaren
+     */
 
     @Override
     public List<FolderEntity> getAllFolders(int page, int size, UserEntity user) {
@@ -55,15 +73,39 @@ public class DefaultFolderService implements FolderService {
         return folderRepository.findAllByCreator(user, pageable).getContent();
     }
 
+    /**
+     * Hämtar en mapp baserat på ID och säkerställer att användaren är ägare.
+     *
+     * @param folderId mappens UUID
+     * @param user ägare
+     * @return ett Optional som innehåller mappen om den finns
+     */
+
     @Override
     public Optional<FolderEntity> getFolderById(UUID folderId, UserEntity user) {
         return folderRepository.findByIdAndCreator(folderId, user);
     }
 
+    /**
+     * Hämtar en mapp och dess filer baserat på ID för en specifik användare.
+     *
+     * @param folderId mappens UUID
+     * @param user ägare
+     * @return ett Optional som innehåller mappen med filer om den finns
+     */
+
     @Override
     public Optional<FolderEntity> getFolderByIdWithFiles(UUID folderId, UserEntity user) {
         return folderRepository.findByIdWithFilesAndCreator(folderId, user);
     }
+
+    /**
+     * Tar bort en mapp baserat på ID för en specifik användare.
+     *
+     * @param folderId mappens UUID
+     * @param user ägare
+     * @throws DeleteFolderNotFoundException om mappen inte finns eller användaren inte är ägare
+     */
 
     @Override
     public void deleteFolderById(UUID folderId, UserEntity user) {

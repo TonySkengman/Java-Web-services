@@ -2,7 +2,6 @@ package se.ecutbildning.file_storage_api.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
 
 @Getter

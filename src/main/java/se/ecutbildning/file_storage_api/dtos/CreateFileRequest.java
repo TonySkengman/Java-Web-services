@@ -8,6 +8,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateFileRequest {
+    private String fileName;
     private String content;
     private UUID folderId;
 }

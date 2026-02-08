@@ -22,6 +22,15 @@ public class DefaultFileService implements FileService {
     private final UserRepository userRepository;
     private final FolderRepository folderRepository;
 
+    /**
+     * Skapar en ny fil i en användares mapp.
+     *
+     * @param request filskapandeförfrågan
+     * @param user filens ägare
+     * @return den skapade FileEntity
+     * @throws CreateFileException om mappen inte finns, användaren inte äger mappen eller innehållet är ogiltigt
+     */
+
     @Override
     public FileEntity createFile(CreateFileRequest request, UserEntity user) throws CreateFileException {
         var folder = folderRepository.findById(request.getFolderId())
@@ -31,16 +40,28 @@ public class DefaultFileService implements FileService {
             throw new CreateFileFolderNotFoundException();
         }
 
+        if (request.getFileName() == null || request.getFileName().isBlank() || request.getFileName().length() < 3) {
+            throw new InvalidFileNameException();
+        }
+
         if (request.getContent().length() < 5) {
             throw new InvalidFileContentException();
         }
 
-        var file = new FileEntity(request.getContent(), user, folder);
+        var file = new FileEntity(request.getFileName(), request.getContent(), user, folder);
         file = fileRepository.save(file);
         log.info("Created file with id '{}' for folder '{}'", file.getId(), folder.getId());
 
         return file;
     }
+
+    /**
+     * Tar bort en fil baserat på ID för en specifik användare.
+     *
+     * @param fileId filens UUID
+     * @param user ägare
+     * @throws DeleteFileNotFoundException om filen inte finns eller användaren inte är ägare
+     */
 
     @Override
     public void deleteFileById(UUID fileId, UserEntity user) {
@@ -53,6 +74,14 @@ public class DefaultFileService implements FileService {
 
         fileRepository.delete(file);
     }
+
+    /**
+     * Hämtar en fil baserat på ID för en specifik användare.
+     *
+     * @param fileId filens UUID
+     * @param user ägare
+     * @return ett Optional som innehåller filen om den finns
+     */
 
     @Override
     public Optional<FileEntity> getFileById(UUID fileId, UserEntity user) {

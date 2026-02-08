@@ -10,6 +10,7 @@ import se.ecutbildning.file_storage_api.dtos.*;
 import se.ecutbildning.file_storage_api.exceptions.CreateFileFolderNotFoundException;
 import se.ecutbildning.file_storage_api.exceptions.DeleteFileNotFoundException;
 import se.ecutbildning.file_storage_api.exceptions.InvalidFileContentException;
+import se.ecutbildning.file_storage_api.exceptions.InvalidFileNameException;
 import se.ecutbildning.file_storage_api.models.UserEntity;
 import se.ecutbildning.file_storage_api.services.FileService;
 import se.ecutbildning.file_storage_api.services.FolderService;
@@ -37,9 +38,12 @@ public class FileController {
         } catch (CreateFileFolderNotFoundException ignored) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse("Folder could not be found"));
+        } catch (InvalidFileNameException ignored) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("File name must be at least 3 characters"));
         } catch (InvalidFileContentException ignored) {
             return ResponseEntity.badRequest()
-                    .body(new ErrorResponse("File must be at least 6 characters"));
+                    .body(new ErrorResponse("File content must be at least 5 characters"));
         } catch (Exception exception) {
             log.error("Error creating file", exception);
             return ResponseEntity
