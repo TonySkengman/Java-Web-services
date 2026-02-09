@@ -16,6 +16,12 @@ public class JwtService {
     private final Algorithm algorithm;
     private final JWTVerifier verifier;
 
+    /**
+     * Skapar en ny JwtService med angiven hemlighet för signering.
+     *
+     * @param secret hemlig nyckel som används för att signera och verifiera JWT
+     */
+
     public JwtService(@Value("${jwt.secret}") String secret) {
         this.algorithm = Algorithm.HMAC256(secret);
         this.verifier = JWT
@@ -23,6 +29,19 @@ public class JwtService {
                 .withIssuer("file-storage-api")
                 .build();
     }
+
+    /**
+     * Genererar en JWT-token för en specifik användare.
+     *
+     * Token innehåller:
+     * - issuer (file-storage-api)
+     * - utfärdandedatum
+     * - utgångsdatum (30 minuter)
+     * - användarens UUID som subject
+     *
+     * @param userId användarens UUID
+     * @return en signerad JWT-token som String
+     */
 
     public String generateToken(UUID userId) {
         return JWT.create()
@@ -32,6 +51,15 @@ public class JwtService {
                 .withSubject(userId.toString())
                 .sign(algorithm);
     }
+
+    /**
+     * Validerar en JWT-token och extraherar användarens UUID.
+     *
+     * @param token JWT-token som ska verifieras
+     * @return användarens UUID om token är giltig
+     * @throws com.auth0.jwt.exceptions.JWTVerificationException
+     *         om token är ogiltig eller har gått ut
+     */
 
     public UUID validateToken(String token) {
         DecodedJWT jwt = verifier.verify(token);
