@@ -30,7 +30,7 @@ public class FileResponse {
     public static FileResponse fromModel(FileEntity file) {
         return new FileResponse(
                 file.getId(),
-                file.getFileName(),
+                file.getName(),
                 file.getContent(),
                 file.getCreatedAt(),
                 file.getCreator(),

@@ -16,7 +16,7 @@ public class FileEntity {
     @Id
     private final UUID id = UUID.randomUUID();
 
-    private String fileName;
+    private String name;
     private String content;
     private Date createdAt;
 
@@ -28,8 +28,8 @@ public class FileEntity {
     @JoinColumn(name = "folder_id")
     private FolderEntity folder;
 
-    public FileEntity (String fileName, String content, UserEntity creator, FolderEntity folder) {
-        this.fileName = fileName;
+    public FileEntity (String name, String content, UserEntity creator, FolderEntity folder) {
+        this.name = name;
         this.content = content;
         this.creator = creator;
         this.folder = folder;
