@@ -22,6 +22,9 @@ public class UserEntity implements UserDetails {
     private String username;
     private String password;
 
+    private String oidcId;
+    private String oidcProvider;
+
     private Date createdAt;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

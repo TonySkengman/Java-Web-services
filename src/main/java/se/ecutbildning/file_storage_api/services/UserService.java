@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public interface UserService extends UserDetailsService {
     UserEntity createUser(String username, String password) throws CreateUserException;
+    UserEntity createOidcUser(String username, String oidcId, String oidcProvider) throws CreateUserException;
     String authenticateUser(String username, String password) throws AuthException;
     Optional<UserEntity> getUserById(UUID userId);
+    Optional<UserEntity> getUserByOidc(String oidcId, String oidcProvider);
 }

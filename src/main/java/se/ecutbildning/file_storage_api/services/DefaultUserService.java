@@ -1,6 +1,5 @@
 package se.ecutbildning.file_storage_api.services;
 
-
 import jakarta.annotation.Nonnull;
 import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
@@ -71,6 +70,23 @@ public class DefaultUserService implements UserService {
         return user;
     }
 
+    @Override
+    public UserEntity createOidcUser(String username, String oidcId, String oidcProvider) throws CreateUserException {
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new UserAlreadyExistsException();
+        }
+
+        var user = new UserEntity(username, null);
+        user.setOidcId(oidcId);
+        user.setOidcProvider(oidcProvider);
+
+        user = userRepository.save(user);
+        log.info("OIDC User '{}' with name '{}' created.", user.getId(), user.getUsername());
+
+        return user;
+    }
+
+
     /**
      * Autentiserar en användare och returnerar en JWT-token om autentisering lyckas.
      *
@@ -92,6 +108,10 @@ public class DefaultUserService implements UserService {
         return jwtService.generateToken(user.getId());
     }
 
+    @Override
+    public Optional<UserEntity> getUserByOidc(String oidcId, String oidcProvider) {
+        return userRepository.findByOidcIdAndOidcProvider(oidcId, oidcProvider);
+    }
 
     /**
      * Hämtar en användare baserat på UUID.
