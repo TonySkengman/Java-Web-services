@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.ecutbildning.file_storage_api.dtos.CreateUserRequest;
 import se.ecutbildning.file_storage_api.dtos.ErrorResponse;
 import se.ecutbildning.file_storage_api.dtos.LoginUserRequest;
@@ -20,6 +17,7 @@ import se.ecutbildning.file_storage_api.services.UserService;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -72,5 +70,13 @@ public class UserController {
                     .internalServerError()
                     .body(new ErrorResponse("Unexpected error"));
         }
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable UUID userId) {
+        return userService
+                .getUserById(userId)
+                .map(user -> ResponseEntity.ok(UserResponse.fromModel(user)))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

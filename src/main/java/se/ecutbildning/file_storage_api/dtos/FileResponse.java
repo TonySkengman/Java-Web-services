@@ -2,14 +2,20 @@ package se.ecutbildning.file_storage_api.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
+import se.ecutbildning.file_storage_api.controllers.FolderController;
+import se.ecutbildning.file_storage_api.controllers.UserController;
 import se.ecutbildning.file_storage_api.models.FileEntity;
 import se.ecutbildning.file_storage_api.models.UserEntity;
+import org.springframework.hateoas.RepresentationModel;
 import java.util.Date;
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Getter
 @Setter
-public class FileResponse {
+public class FileResponse extends RepresentationModel<FileResponse> {
 
     private final UUID id;
     private String fileName;
@@ -28,7 +34,7 @@ public class FileResponse {
     }
 
     public static FileResponse fromModel(FileEntity file) {
-        return new FileResponse(
+        var response = new FileResponse(
                 file.getId(),
                 file.getName(),
                 file.getContent(),
@@ -36,5 +42,17 @@ public class FileResponse {
                 file.getCreator(),
                 file.getFolder().getId()
         );
+
+        response.add(linkTo(
+                methodOn(FolderController.class).getFolderById(file.getFolder().getId(), false, null))
+                .withRel("folder")
+        );
+
+        response.add(linkTo(
+                methodOn(UserController.class).getUserById(file.getCreator().getId()))
+                .withRel("user")
+        );
+
+        return response;
     }
 }
